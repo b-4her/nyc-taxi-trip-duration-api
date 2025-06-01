@@ -1,3 +1,9 @@
+# Ignore data folders or files
+data/
+*.csv
+*.xlsx
+*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
