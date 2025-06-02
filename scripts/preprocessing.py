@@ -56,6 +56,14 @@ def engineer_feature(df):
     # Euclidean distance approximation
     df["trip_distance"] = np.sqrt(x**2 + y**2)
 
+
+    # converting datetime into 4 new features
+    df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+    df['dayofweek'] = df.pickup_datetime.dt.dayofweek
+    df['month'] = df.pickup_datetime.dt.month
+    df['hour'] = df.pickup_datetime.dt.hour
+    df['dayofyear'] = df.pickup_datetime.dt.dayofyear
+
     return df
 
 
@@ -67,6 +75,9 @@ def drop_cols(df):
     df.drop("dropoff_longitude", axis=1, inplace=True)
     df.drop("pickup_latitude", axis=1, inplace=True)
     df.drop("pickup_longitude", axis=1, inplace=True)
+
+    # dropping datetime object
+    df.drop("pickup_datetime", axis=1, inplace=True)
 
     return df
 
@@ -90,6 +101,6 @@ def preprocessing_pipeline(df: pd.DataFrame):
     print("Dropping columns...")
     df = drop_cols(df)
 
-    print("Final shape:", df.shape)
+    print("Final shape:", df.shape, "\n")
 
     return df
