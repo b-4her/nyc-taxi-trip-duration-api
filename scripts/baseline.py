@@ -2,23 +2,35 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics import r2_score, mean_squared_error
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Ridge
 
-
-def predict_eval(model, train, train_features, name):
-    y_train_pred = model.predict(train[train_features])
-    rmse = mean_squared_error(train.log_trip_duration, y_train_pred)
-    r2 = r2_score(train.log_trip_duration, y_train_pred)
-    print(f"{name} RMSE = {rmse:.4f} - R2 = {r2:.4f}")
+from preprocessing import preprocessing_pipeline
 
 
-def approach1(train, test): # direct
-    numeric_features = ['pickup_latitude', 'pickup_longitude', 'dropoff_latitude', 'dropoff_longitude']
-    categorical_features = ['dayofweek', 'month', 'hour', 'dayofyear', 'passenger_count']
-    train_features = categorical_features + numeric_features
+def main():
+    train = pd.read_csv('../data/split_sample/train.csv')
+    val = pd.read_csv('../data/split_sample/val.csv')
+
+    train = preprocessing_pipeline(train)
+    val = preprocessing_pipeline(val)
+
+    # Separating target
+    train_target = train["trip_duration"]
+    val_target = val["trip_duration"]
+    train.drop("trip_duration", axis=1, inplace=True)
+    val.drop("trip_duration", axis=1, inplace=True)
+
+    approach1(train, val, train_target, val_target)
+
+
+def approach1(train, val, train_target, val_target):
+    # encoding 
+    categorical_features = ['store_and_fwd_flag', 'vendor_id']
+    # scaling
+    numeric_features = ['trip_distance',  'dayofweek',  'month',  'hour',  'dayofyear']
 
     column_transformer = ColumnTransformer([
         ('ohe', OneHotEncoder(handle_unknown="ignore"), categorical_features),
@@ -32,28 +44,18 @@ def approach1(train, test): # direct
         ('regression', Ridge())
     ])
 
-    model = pipeline.fit(train[train_features], train.log_trip_duration)
-    predict_eval(model, train, train_features, "train")
-    predict_eval(model, test, train_features, "test")
+    # To pickle
+    model = pipeline.fit(train, train_target)
+    predict_eval(model, train, train_target, "train")
+    predict_eval(model, val, val_target, "validation")
 
 
-def prepare_data(train):
-    train.drop(columns=['id'], inplace=True)
-
-    train['pickup_datetime'] = pd.to_datetime(train['pickup_datetime'])
-    train['dayofweek'] = train.pickup_datetime.dt.dayofweek
-    train['month'] = train.pickup_datetime.dt.month
-    train['hour'] = train.pickup_datetime.dt.hour
-    train['dayofyear'] = train.pickup_datetime.dt.dayofyear
-
-    train['log_trip_duration'] = np.log1p(train.trip_duration)
+def predict_eval(model, train, train_target, name):
+    y_train_pred = model.predict(train)
+    rmse = mean_squared_error(train_target, y_train_pred)
+    r2 = r2_score(train_target, y_train_pred)
+    print(f"{name} RMSE = {rmse:.4f} - R2 = {r2:.4f}")
 
 
-if __name__ == '__main__':
-    train = pd.read_csv('../data/split_sample/train.csv')
-    test = pd.read_csv('../data/split_sample/val.csv')
-
-    prepare_data(train)
-    prepare_data(test)
-
-    approach1(train, test)
+if __name__ == "__main__":
+    main()
