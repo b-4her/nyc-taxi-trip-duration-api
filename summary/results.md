@@ -1,0 +1,2 @@
+- Got similar result when used minmax to when I used standarization
+- R2 = 0.5702 -> validation (v1)

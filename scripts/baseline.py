@@ -28,9 +28,9 @@ def main():
 
 def approach1(train, val, train_target, val_target):
     # encoding 
-    categorical_features = ['store_and_fwd_flag', 'vendor_id']
+    categorical_features = ['store_and_fwd_flag', 'vendor_id', 'dayofweek',  'month',  'hour',  'dayofyear']
     # scaling
-    numeric_features = ['trip_distance',  'dayofweek',  'month',  'hour',  'dayofyear']
+    numeric_features = ['trip_distance']
 
     column_transformer = ColumnTransformer([
         ('ohe', OneHotEncoder(handle_unknown="ignore"), categorical_features),
