@@ -17,17 +17,22 @@ def replace_numerical_by_categorical(df):
     return df
 
 
-def clean_outliers(df):
-    # Removing categorical outliers
-    df = df[(df["passenger_count"] != 0) & (df["passenger_count"] != 7)]
+def clean_outliers(df, train_iqr=-1):
+    df = df[(df["passenger_count"] != 0)]
 
     def clean_outliers(df, col):
-        q1 = df[col].quantile(0.25)
-        q3 = df[col].quantile(0.75)
-        iqr = q3 - q1
+        MULTIPLIER = 5
+
+        if train_iqr == -1:
+            q1 = df[col].quantile(0.25)
+            q3 = df[col].quantile(0.75)
+            iqr = q3 - q1
+        else:
+            iqr = train_iqr
         
-        lower_bound = q1 - 1.5 * iqr
-        upper_bound = q3 + 1.5 * iqr
+        # You should not make the outliers range so narrow so that you don't drop much data.
+        lower_bound = q1 - MULTIPLIER * iqr
+        upper_bound = q3 + MULTIPLIER * iqr
         
         df_no_outliers = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
         return df_no_outliers
@@ -56,13 +61,18 @@ def engineer_feature(df):
     # Euclidean distance approximation
     df["trip_distance"] = np.sqrt(x**2 + y**2)
 
-
     # converting datetime into 4 new features
     df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
     df['dayofweek'] = df.pickup_datetime.dt.dayofweek
-    df['month'] = df.pickup_datetime.dt.month
     df['hour'] = df.pickup_datetime.dt.hour
-    df['dayofyear'] = df.pickup_datetime.dt.dayofyear
+    df['month'] = df.pickup_datetime.dt.month
+
+    # Some summary stats for coordinates
+    df["coord_sum"] = df["dropoff_latitude"] + df["dropoff_longitude"] + df["pickup_latitude"] + df["pickup_longitude"]
+    df["coord_square_sum"] = df["dropoff_latitude"]**2 + df["dropoff_longitude"]**2 + df["pickup_latitude"]**2 + df["pickup_longitude"]**2
+
+    df["isNight"] = df["hour"] // 18
+    df["isWeekend"] = df.pickup_datetime.dt.weekday // 5
 
     return df
 
@@ -70,11 +80,11 @@ def engineer_feature(df):
 def drop_cols(df):
     df.drop("id", axis=1, inplace=True)  # dropping id
 
-    # dropping coordinates
-    df.drop("dropoff_latitude", axis=1, inplace=True)
-    df.drop("dropoff_longitude", axis=1, inplace=True)
-    df.drop("pickup_latitude", axis=1, inplace=True)
-    df.drop("pickup_longitude", axis=1, inplace=True)
+    # # dropping coordinates
+    # df.drop("dropoff_latitude", axis=1, inplace=True)
+    # df.drop("dropoff_longitude", axis=1, inplace=True)
+    # df.drop("pickup_latitude", axis=1, inplace=True)
+    # df.drop("pickup_longitude", axis=1, inplace=True)
 
     # dropping datetime object
     df.drop("pickup_datetime", axis=1, inplace=True)
