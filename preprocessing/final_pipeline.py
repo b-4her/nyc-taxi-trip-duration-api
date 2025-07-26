@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def column_transformation(df):
-    # Shrinking columns values
+    # Shrinking column values
     df["log_trip_duration"] = np.log1p(df["trip_duration"])
     df.drop("trip_duration", axis=1, inplace=True)
     return df
@@ -27,8 +27,12 @@ def clean_numeric_outliers(df, col, train_iqr=-1):
 
     lower_bound = q1 - MULTIPLIER * iqr
     upper_bound = q3 + MULTIPLIER * iqr
-
+    
     df_no_outliers = df[df[col].between(lower_bound, upper_bound)]
+
+    if col == "log_trip_duration":
+        df[col] = np.pow(df[col], 2)
+        
     return df_no_outliers, iqr
 
 
@@ -209,6 +213,6 @@ def preprocessing_pipeline(df: pd.DataFrame, iqr=-1):
     df = drop_cols(df)
 
     print("Final shape:", df.shape, "\n")
-    print(df.columns)
+    # print(df.columns)
 
     return df, iqr

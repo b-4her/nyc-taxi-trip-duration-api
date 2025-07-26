@@ -15,3 +15,7 @@ MAIN lesson:
 1. Don't think about if the feature is useful or not, just create it anyways, it is hard to know what can be useful and what's not
 
 (WE have DAta leakage in calculating the IQR of validation set, we should use train IQR)
+---
+
+Make it in Latex as PDF then swap it with this - summarize EDA and add insights from results on model, and how things went.
+
