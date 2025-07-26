@@ -11,17 +11,17 @@ from preprocessing import preprocessing_pipeline
 
 
 def main():
-    train = pd.read_csv('../data/split_sample/train.csv')
-    val = pd.read_csv('../data/split_sample/val.csv')
+    train = pd.read_csv('../data/split/train.csv')
+    val = pd.read_csv('../data/split/val.csv')
 
-    train = preprocessing_pipeline(train)
-    val = preprocessing_pipeline(val)
+    train, iqr = preprocessing_pipeline(train)
+    val, _ = preprocessing_pipeline(val, iqr)
 
     # Separating target
-    train_target = train["trip_duration"]
-    val_target = val["trip_duration"]
-    train.drop("trip_duration", axis=1, inplace=True)
-    val.drop("trip_duration", axis=1, inplace=True)
+    train_target = train["log_trip_duration"]
+    val_target = val["log_trip_duration"]
+    train.drop("log_trip_duration", axis=1, inplace=True)
+    val.drop("log_trip_duration", axis=1, inplace=True)
 
     approach1(train, val, train_target, val_target)
     # approach2(train, val, train_target, val_target)
@@ -30,12 +30,12 @@ def main():
 
 def approach1(train, val, train_target, val_target):
     # encoding 
-    categorical_features = ['store_and_fwd_flag', 'vendor_id', 'dayofweek',  'hour',  'month', "passenger_count", "isWeekend", "isNight"]
+    categorical_features = ['hour', 'season', 'weekday', 'vendor_id', 'passenger_count', 'month']
     # scaling
-    numeric_features = ["trip_distance"]
+    numeric_features = []
     
     column_transformer = ColumnTransformer([
-        ('ohe', OneHotEncoder(handle_unknown="ignore"), categorical_features),
+        ('ohe', OneHotEncoder(handle_unknown='ignore'), categorical_features),
         ('scaling', StandardScaler(), numeric_features)
         ]
         , remainder = 'passthrough'
