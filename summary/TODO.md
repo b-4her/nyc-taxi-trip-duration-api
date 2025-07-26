@@ -1,4 +1,5 @@
 - [ ] Finish API & Flask small page (Use the final model made)
+- [ ] Document API, make readme general structure (background, EDA, report ... & toggle list)
 - [ ] Explore few models (base line and 4 more)
 - [ ] Fill the results with details and comparisons between models
 - [ ] Take info from feature-selec-notebook then remove it
