@@ -1,10 +1,8 @@
 import pandas as pd
-import numpy as np
 import sys, os
 import joblib
 
-from sklearn.metrics import r2_score, root_mean_squared_error
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler, PolynomialFeatures
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Ridge
