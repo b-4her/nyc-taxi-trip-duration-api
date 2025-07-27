@@ -3,7 +3,7 @@
 <!-- PROJECT TITLE -->
 <br />
 <div align="center">
-  <h2 align="center"><b>NYC Taxi Trip Duration Prediction</b></h3>
+  <h1 align="center"><b>NYC Taxi Trip Duration Prediction</b></h1>
 
   <p align="center">
     <i>This project uses machine learning to predict trip duration based on extracted patterns from trip-related data.</i>
