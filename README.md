@@ -8,16 +8,12 @@ This project uses machine learning to predict trip duration based on extracted p
 
 - [Project Overview](#project-overview)
 - [Repo Structure and File Descriptions](#repo-structure-and-file-descriptions)
-- <details>
-  <summary>Development Process</summary>
-
+- [Development Process](#development-process)
   - [EDA](#eda)
   - [Feature Selection](#feature-selection)
   - [Modeling and Results](#modeling-and-results)
   - [API](#api)
   - [CLI](#cli)
-  </details>
-
 - [Project Report](#project-report)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
