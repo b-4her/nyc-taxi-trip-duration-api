@@ -17,7 +17,7 @@
 <details>
 <summary><strong>Table of Contents</strong></summary>
 
-- [Project Overview](#project-overview)
+- [Overview](#overview)
 - [Repo Structure and File Descriptions](#repo-structure-and-file-descriptions)
 - [Development Process](#development-process)
   - [EDA](#eda)
@@ -39,7 +39,7 @@
 
 ---
 
-## Project Overview
+## Overview
 
 The main idea of this project is to understand the end-to-end deployment process of a machine learning model, focusing on each step in the pipeline and gaining hands-on experience throughout.
 
@@ -48,7 +48,7 @@ The project starts with a comprehensive exploratory data analysis (EDA) and emph
 The final model is deployed using a FastAPI service, and a command-line interface (CLI) tool was built to interact with the API — simulating how such a system could be used in production.
 
 
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
