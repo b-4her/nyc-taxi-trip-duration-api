@@ -15,12 +15,12 @@ This project uses machine learning to predict trip duration based on extracted p
   - [API](#api)
   - [CLI](#cli)
 - [Project Report](#project-report)
+- [Lessons Learned](#lessons-learned)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [API Usage](#api-usage)
 - [CLI Usage](#cli-usage)
-- [Lessons Learned](#lessons-learned)
 - [Contact Information](#contact-information)
 - [Acknowledgments](#acknowledgments)
 
