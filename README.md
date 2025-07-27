@@ -23,6 +23,7 @@
   - [EDA](#eda)
   - [Feature Selection](#feature-selection)
   - [Modeling and Results](#modeling-and-results)
+  - [Inference Input Formatting](#Inference-input-formatting)
   - [API](#api)
   - [CLI](#cli)
 - [Project Report](#project-report)
@@ -99,3 +100,6 @@ one readme is enough, though start it with detailed toggels
 mention directories navigation when necessary
 
 Mention main goal to understand end to end production
+
+
+Cover API endpoints in the usage section of it.
