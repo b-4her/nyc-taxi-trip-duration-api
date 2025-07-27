@@ -6,7 +6,7 @@
   <h1 align="center"><b>NYC Taxi Trip Duration Prediction</b></h1>
 
   <p align="center">
-    <i>This project uses machine learning to predict trip duration based on extracted patterns from trip-related data.</i>
+    <i>end-to-end machine learning project that explores, builds, and deploys a predictive model for NYC taxi trip durations — from raw data analysis to API integration.</i>
     <br />
     <a href="https://youtu.be/your-demo-link"><strong>Quick Demo</strong></a>
   </p>
