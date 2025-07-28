@@ -308,34 +308,6 @@ For any questions or feedback, reach out via:
 
 ---
 
-Here are a few alternative section titles that are more specific or polished than "Acknowledgments" for your context:
-
-### Option 1: **Resources and Credits**
-
-Reflects tools, libraries, and contributions clearly.
-
-### Option 2: **Tools, Contributions, and Credits**
-
-Balances technical tools and assistance received.
-
-### Option 3: **Resources and Support**
-
-Sounds professional and softens the mention of ChatGPT usage.
-
-### Option 4: **Technologies and Contributions**
-
-Highlights the tech stack and help received.
-
-### Option 5: **Project Support and Technologies**
-
-Slightly formal; useful for reports or academic work.
-
----
-
-Here’s your revised section using **Option 1: "Resources and Credits"** (recommended):
-
----
-
 ## Resources and Credits
 
 * The dataset used in this project is private and cannot be publicly shared.
