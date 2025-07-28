@@ -1,1 +1,21 @@
-1.6.1 scikit?
+# Core ML & Data
+scikit-learn==1.6.1
+pandas==2.2.3
+numpy==1.26.4
+seaborn==0.13.2
+matplotlib==3.10.0
+joblib==1.4.0
+scipy==1.13.1
+
+# API & CLI
+fastapi==0.110.2
+uvicorn==0.29.0
+requests==2.32.3
+# argparse is standard lib, no need to install
+
+# Jupyter & Dev Tools
+jupyter
+notebook
+ipykernel
+
+

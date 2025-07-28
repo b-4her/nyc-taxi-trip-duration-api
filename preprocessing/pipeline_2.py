@@ -2,13 +2,6 @@ import numpy as np
 import pandas as pd
 
 
-def column_transformation(df):
-    # Shrinking column values
-    df["log_trip_duration"] = np.log1p(df["trip_duration"])
-    df.drop("trip_duration", axis=1, inplace=True)
-    return df
-
-
 def fix_datatypes(df):
     # Fixing Data Types
     df['vendor_id'] = df['vendor_id'].astype('int')
@@ -69,11 +62,6 @@ def engineer_feature(df):
     df["trip_distance_sqrt"] = np.sqrt(np.sqrt(x**2 + y**2))
     df["trip_distance_square"] = x**2 + y**2
     df["trip_distance_cube"] = (np.sqrt(x**2 + y**2))**3
-    
-    df["log_trip_distance"] = np.log1p(np.sqrt(x**2 + y**2))
-    df["log_trip_distance_sqrt"] = np.log1p(np.sqrt(np.sqrt(x**2 + y**2)))
-    df["log_trip_distance_square"] = np.log1p(x**2 + y**2)
-    df["log_trip_distance_cube"] = np.log1p((np.sqrt(x**2 + y**2))**3)
 
 
     # Coordinates are taken from Google Maps
@@ -150,7 +138,7 @@ def engineer_feature(df):
                             (df['store_and_fwd_flag'] == 'Y').astype("int")
                             ))
     
-    df['virtual_time'] = df['log_trip_distance'] / df['virtual_speed']
+    df['virtual_time'] = df['trip_distance'] / df['virtual_speed']
 
     # Adding the cubes
     df['virtual_speed_cube'] = df['virtual_speed'] ** 3
@@ -178,7 +166,6 @@ def drop_cols(df):
                         'virtual_speed', 'virtual_speed_cube',
                         'virtual_time_cube', # 'virtual_time', 'virtual_time_dist_sqrt',
                         # 'trip_distance_sqrt', 'trip_distance_square', 'trip_distance_cube', 'trip_distance',
-                        # 'log_trip_distance_sqrt', 'log_trip_distance_square', 'log_trip_distance_cube', 'log_trip_distance',
                         # 'is_jfk_airport', 'is_lg_airport',
                      ] 
 
@@ -195,11 +182,8 @@ def preprocessing_pipeline(df: pd.DataFrame, iqr=-1):
     print("Replacing Numerical Values...")
     df = fix_datatypes(df)
 
-    print("Doing column transformation...")
-    df = column_transformation(df)
-
     df = clean_outliers(df)
-    df, iqr = clean_numeric_outliers(df, "log_trip_duration", iqr)
+    df, iqr = clean_numeric_outliers(df, "trip_duration", iqr)
     print(f"After cleaning outliers: {df.shape}")
 
     print("Feature Engineering...")

@@ -195,12 +195,12 @@ def preprocessing_pipeline(df: pd.DataFrame, iqr=-1):
     print("Replacing Numerical Values...")
     df = fix_datatypes(df)
 
+    df = clean_outliers(df)
+    df, iqr = clean_numeric_outliers(df, "trip_duration", iqr)
+    print(f"After cleaning outliers: {df.shape}")
+
     print("Doing column transformation...")
     df = column_transformation(df)
-
-    df = clean_outliers(df)
-    df, iqr = clean_numeric_outliers(df, "log_trip_duration", iqr)
-    print(f"After cleaning outliers: {df.shape}")
 
     print("Feature Engineering...")
     df = engineer_feature(df)  

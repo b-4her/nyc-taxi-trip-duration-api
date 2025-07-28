@@ -9,10 +9,10 @@ from sklearn.linear_model import Ridge
 
 sys.path.append(os.path.abspath('../preprocessing/'))
 
-from final_pipeline import preprocessing_pipeline
+from experiment_pipeline import preprocessing_pipeline
 from helper import predict_eval
 
-MODEL_NAME = 'final_ridge_pipeline'
+MODEL_NAME = 'experiment_ridge_pipeline'
 SAVE_MODEL = False
 
 def main():
@@ -38,13 +38,32 @@ def main():
     
 
 def train_model(train, val, train_target, val_target, train_iqr=-1, save_it=False, model_path=f"../models/{MODEL_NAME}.pkl"):
-    # encoding 
-    categorical_features = ['hour', 'season', 'weekday', 'vendor_id', 'passenger_count', 'month']
-    # scaling
-    numeric_features = ['virtual_time', 'virtual_time_dist_sqrt', 'coord_square_sum', 'coord_arithmetic_mean', 
-                        'coord_harmonic_mean', 'trip_distance_sqrt', 'trip_distance_square', 'trip_distance_cube', 'trip_distance',
-                        'log_trip_distance_sqrt', 'log_trip_distance_square', 'log_trip_distance_cube', 'log_trip_distance']
+    """
+    Trains a Ridge Regression model using a pipeline and evaluates it on training and validation sets.
+
+    Parameters:
+    - train: Training feature DataFrame.
+    - val: Validation feature DataFrame.
+    - train_target: Target values for training set.
+    - val_target: Target values for validation set.
+    - train_iqr: Optional IQR value for saving (used in outlier filtering during inference).
+    - save_it: If True, saves the trained model and IQR info using joblib.
+    - model_path: File path to save the model.
+
+    Returns:
+    - If save_it is False, the function only prints evaluation scores.
+      If save_it is True, saves the pipeline and IQR in a dictionary to the specified path.
+    """
     
+    # Features that are included here should match the split made in the preprocessing pipeline
+
+    # encoding 
+    categorical_features = ['hour', 'season', 'passenger_count', 'month', 'is_jfk_airport', 'is_lg_airport', 'virtual_speed', 'virtual_speed_cube'] 
+    # scaling
+    numeric_features = [ 'coord_square_sum', 'coord_arithmetic_mean', 
+                        'coord_harmonic_mean', 
+                        ]
+
     column_transformer = ColumnTransformer([
         ('ohe', OneHotEncoder(handle_unknown='ignore'), categorical_features),
         ('scaling', StandardScaler(), numeric_features)
@@ -57,7 +76,7 @@ def train_model(train, val, train_target, val_target, train_iqr=-1, save_it=Fals
         ('regression', Ridge(alpha=1))
     ])
     
-    # pickle
+    # training
     model = pipeline.fit(train, train_target)
     predict_eval(model, train, train_target, "train")
     predict_eval(model, val, val_target, "validation")
@@ -70,6 +89,7 @@ def train_model(train, val, train_target, val_target, train_iqr=-1, save_it=Fals
         "train_iqr": train_iqr,
     }
 
+    # pickle
     joblib.dump(to_save, model_path)
     print(f"Model saved to path {model_path}")
 

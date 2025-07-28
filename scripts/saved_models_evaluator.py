@@ -10,6 +10,7 @@ from final_pipeline import preprocessing_pipeline
 from helper import predict_eval
 
 MODEL_NAME = 'final_ridge_pipeline'
+TARGET_VARIABLE = 'log_trip_duration'
 
 DEFAULT_MODEL_PATH = f'../models/{MODEL_NAME}.pkl'
 DEFAULT_TEST_PATH = '../data/split/test.csv'
@@ -38,12 +39,14 @@ def main():
     
     # Preparing data
     test, _ = preprocessing_pipeline(test, train_iqr)
-    test_target = test["log_trip_duration"]
-    test.drop("log_trip_duration", axis=1, inplace=True)
+    test_target = test[TARGET_VARIABLE]
+    test.drop(TARGET_VARIABLE, axis=1, inplace=True)
 
     '''
         Note: Ensure that you import the correct preprocessing pipeline
         that matches the one used during model training.
+
+        Name of target variable should also be matching to the one used here
     '''
 
     predict_eval(model, test, test_target, "TestSet")

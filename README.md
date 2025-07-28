@@ -103,3 +103,6 @@ Mention main goal to understand end to end production
 
 
 Cover API endpoints in the usage section of it.
+
+
+Include results of the final model in the modeling section
