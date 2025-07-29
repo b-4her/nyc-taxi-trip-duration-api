@@ -130,7 +130,7 @@ Modeling was done using Ridge Regression with standardization and one-hot encodi
 
 Model tracking showed that even simple changes (like transformation order or encoding strategy) impacted results significantly.
 
-Detailed model results and performance comparisons are available in [📄 `summary/model_results.md`](summary/model_results.md).
+Detailed model results and performance comparisons are available in 📄 [`summary/model_results.md`](summary/model_results.md).
 
 ### Inference Input Formatting 
 
