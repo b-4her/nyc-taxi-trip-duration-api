@@ -529,6 +529,8 @@ print(response.json())
 More examples (including batch prediction) can be found in:  
 📁 [`api/api_client_demo.py`](api/api_client_demo.py)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ---
 
 ### Contact Information
