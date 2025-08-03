@@ -218,9 +218,9 @@ def predict(trip_data: TripInput):
         model_pipeline, _ = load_model(MODEL_PATH)
         log_trip_duration = model_pipeline.predict(trip)[0]
         trip_duration = np.expm1(log_trip_duration).round()
-        trip_duration_minutes = trip_duration // 60
+        trip_duration_minutes = round(trip_duration / 60, 2)
 
-        return {"trip_duration": int(trip_duration_minutes)}
+        return {"trip_duration": trip_duration_minutes}
     
     except Exception as e:
         traceback.print_exc()
