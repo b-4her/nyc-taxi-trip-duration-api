@@ -21,4 +21,4 @@
 >
 > All trained models are saved in the `models/` directory and can be evaluated using the `saved_models_evaluator.py` script found in the `scripts/` folder.  
 >
-> Detailed insights and commentary on model changes, feature choices, and observations throughout the modeling process are available in the final report located in the `summary/` directory.
+> Detailed insights and commentary on model changes, feature choices, and observations throughout the modeling process are available in the 📄 [`final report`](nyc-taxi-trip-summary-report.pdf) located in the `summary/` directory.

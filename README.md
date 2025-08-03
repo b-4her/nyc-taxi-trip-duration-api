@@ -139,6 +139,15 @@ Modeling was done using Ridge Regression with standardization and one-hot encodi
 
 Model tracking showed that even simple changes (like transformation order or encoding strategy) impacted results significantly.
 
+The table below shows the performance of the best Ridge Regression model using the final preprocessing pipeline:
+
+#### Ridge Regression (α = 1)
+
+| Dataset         | RMSE   | R² Score |
+|----------------|--------|----------|
+| Training Set   | 0.3931 | 0.6931   |
+| Validation Set | 0.3930 | 0.6949   |
+
 Detailed model results and performance comparisons are available in 📄 [`summary/model_results.md`](summary/model_results.md).
 
 ### Inference Input Formatting 
