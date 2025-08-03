@@ -160,13 +160,15 @@ To simplify deployment and avoid manual installation of dependencies, a Docker s
 
 ### API
 
-A RESTful API was built using FastAPI to serve the model. Main endpoints:
+A RESTful API was built using FastAPI to serve the model. Users can interact with the API in three ways: using cURL commands directly from the terminal, through a CLI tool, or via a Python client.
 
+Main endpoints:
 - `POST /predict` — Returns trip duration prediction.
+- `POST /predict/batch` — Returns predictions for multiple inputs in batch.
 - `GET /features`, `GET /features/sample` — Show required fields and sample input.
 - `GET /help`, `GET /about` — Describe API and usage.
 
-A cURL usage guide is also included for users who prefer to interact with the API directly from the terminal without using the CLI tool.
+For users preferring terminal interaction without the CLI tool, a cURL usage guide is provided.
 
 ### CLI
 
@@ -178,7 +180,9 @@ A CLI tool using `argparse` and `requests` was created to interact with the API 
 
 ### API Client
 
-(TODO)
+A lightweight Python client was developed to streamline interaction with the API during development. It allows direct integration into notebooks, scripts, or other tools, making it easier to test functionality, automate workflows, and reduce the need for manual terminal requests.
+
+This approach enhances productivity by simplifying repetitive tasks and enabling quick feedback loops while building or validating features.
 
 ---
 
@@ -288,6 +292,7 @@ To run the API using Docker (no need to install dependencies manually):
     docker container prune
     ```
     > This will prompt for confirmation before deleting all stopped containers.
+
     Remove all containers (both running and stopped):
     ```bash
     docker rm -f $(docker ps -a -q)
@@ -493,14 +498,36 @@ For usage instructions:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
+## API Client Usage
 
-## API Client Usage 
+A lightweight Python client class is available for interacting with the API programmatically.
 
-(TODO)
+The client supports all core endpoints, including predictions (single/batch), schema validation, and metadata queries.
 
-[api-client-demo](api/api_client_demo.py)  
+### Basic Example
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+```python
+from api_client import TripDurationPredictor
+
+client = TripDurationPredictor("http://127.0.0.1:8000")
+
+response = client.predict(
+    vendor_id=2,
+    passenger_count=1,
+    pickup_longitude=-73.9887,
+    pickup_latitude=40.7316,
+    dropoff_longitude=-73.9912,
+    dropoff_latitude=40.7506,
+    pickup_date="2023-08-15",
+    pickup_time="14:23",
+    store_and_fwd_flag="N"
+)
+
+print(response.json())
+```
+
+More examples (including batch prediction) can be found in:
+📁 [`api/api_client_demo.py`](api/api_client_demo.py)
 
 ---
 
