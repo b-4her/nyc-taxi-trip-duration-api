@@ -27,6 +27,7 @@
   - [Docker](#docker)
   - [API](#api)
   - [CLI](#cli)
+  - [Client](#client)
 - [Project Report](#project-report)
 - [Lessons Learned](#lessons-learned)
 - [Getting Started](#getting-started)
@@ -281,7 +282,67 @@ Basic endpoints include:
 
 ### Interacting with the API Using cURL
 
-(TODO)
+You can interact with the API directly using `curl`, a command-line tool for making HTTP requests. This is especially useful for testing or automation. The examples below show how to interact with each available endpoint.
+
+> *Make sure the API is running locally** before executing any `curl` commands.  
+> You can start the server with:
+
+```bash
+uvicorn api.main:app --reload
+```
+
+> It's recommended to **split your terminal**—use one pane for hosting the API and the other for running `curl` commands.
+
+> If you're unfamiliar with `curl`, you may prefer the [CLI tool](#cli-usage) described in the next section for easier usage.
+
+#### General Format
+
+- **GET requests** retrieve data and do not require input.
+- **POST requests** send data in JSON format to the server.
+- Use `| jq` at the end to **prettify** the JSON output (requires [jq](https://stedolan.github.io/jq/)).
+
+#### `GET` Endpoints (No Input Required)
+
+```bash
+# Get API information
+curl http://127.0.0.1:8000/about | jq
+
+# List of available endpoints
+curl http://127.0.0.1:8000/help | jq
+
+# Get list of required features
+curl http://127.0.0.1:8000/features | jq
+
+# Get a sample input dictionary
+curl http://127.0.0.1:8000/features/sample | jq
+
+# Show version information
+curl http://127.0.0.1:8000/version | jq
+```
+
+#### POST Endpoint Usage (cURL)
+
+The following examples demonstrate how to use `curl` to interact with the API's `POST` endpoints. These endpoints require sending JSON input data in the request body.
+
+Use the `/predict` endpoint to get a trip duration estimate (minutes) based on trip details:
+
+```bash
+curl -X POST http://127.0.0.1:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vendor_id": 1,
+    "passenger_count": 1,
+    "pickup_longitude": -73.988609,
+    "pickup_latitude": 40.748977,
+    "dropoff_longitude": -73.992797,
+    "dropoff_latitude": 40.763408,
+    "pickup_date": "2016-03-23",
+    "pickup_time": "02:24",
+    "store_and_fwd_flag": "N"
+  }' | jq
+```
+
+Other POST endpoints such as `/validate` follow a similar format — they accept JSON in the request body and return JSON responses.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -378,6 +439,8 @@ For usage instructions:
 ## Client Usage 
 
 (TODO)
+
+[api-client-demo](api/api_client_demo.py)  
 
 ---
 
