@@ -176,8 +176,6 @@ A CLI tool using `argparse` and `requests` was created to interact with the API 
 - Hit endpoints like `/predict` or `/validate`.
 - Test predictions without needing a frontend.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Client
 
 (TODO)
@@ -224,10 +222,14 @@ To run this project locally, clone the repository and install the required depen
 
   ```bash
   git clone https://github.com/b-4her/nyc-taxi-trip-duration-api.git
+  ```
+2. **Navigate to the project directory**
+
+  ```bash
   cd nyc-taxi-trip-duration-api
   ```
 
-2.	**Install dependencies**
+3.	**Install dependencies**
 
    ```bash
    pip install -r requirements.txt

@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copy only the necessary directories and files
 COPY api/ ./api/
-COPY models/ ./models/
+COPY scripts/ ./scripts/
 COPY models/final_ridge_pipeline.pkl ./models/final_ridge_pipeline.pkl
 COPY preprocessing/final_pipeline.py ./preprocessing/final_pipeline.py
 COPY requirements.txt .
