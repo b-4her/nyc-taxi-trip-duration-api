@@ -1,0 +1,23 @@
+# Ignore everything
+**
+
+# Allow required files and folders
+!api/
+!models/
+!scripts/
+!preprocessing/
+!requirements.txt
+
+# Optional: also ignore __pycache__, .git, and editor files inside allowed dirs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.swp
+*.swo
+*.DS_Store
+.env
+.git
+.vscode
+.idea

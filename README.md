@@ -6,7 +6,7 @@
   <h1 align="center"><b>NYC Taxi Trip Duration Prediction</b></h1>
 
   <p align="center">
-    <i>end-to-end machine learning project that explores, builds, and deploys a predictive model for NYC taxi trip durations — from raw data analysis to API integration.</i>
+    <i>An end-to-end machine learning project that explores, builds, and deploys a predictive model for NYC taxi trip durations — from raw data analysis to API integration, packaged in a Docker container for reproducibility and production readiness.</i>
     <br />
     <a href="https://youtu.be/your-demo-link"><strong>Quick Demo</strong></a>
   </p>
@@ -186,6 +186,8 @@ A detailed summary of the entire project — from EDA to deployment — is avail
 
 📄 [`nyc-taxi-trip-summary-report.pdf`](summary/nyc-taxi-trip-summary-report.pdf)
 
+> Note: The Client section, Docker integration, and cURL-based API usage were added after the report was written and are not included in it.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
@@ -236,9 +238,55 @@ To run this project locally, clone the repository and install the required depen
 
 ### Docker Usage
 
-(TODO)
+To run the API using Docker (no need to install dependencies manually):
 
-- To interact with the api directly see [CURL-Commands](#interacting-with-the-api-using-curl)
+1. **Make sure Docker is installed**   
+   → [Install Docker](https://docs.docker.com/get-docker/)
+
+2. **Build the Docker image**  
+   Run this from the root directory of the project:
+   ```bash
+   docker build -t nyc-taxi-api .
+   ```
+3. **Run the API container**  
+    This will start the FastAPI app on port 8000:
+    ```bash
+    docker run --name taxi-api -p 8000:8000 nyc-taxi-api
+    ```
+    > Tip: If port 8000 is already in use, either stop the conflicting container or run on a different port using -p 8080:8000.  
+    
+    To interact with the API directly after it is running, see [CURL-Commands](#interacting-with-the-api-using-curl).
+4. **See running containers**  
+    To list all currently running containers, use:
+    ```bash
+    docker ps
+    ```
+    To list all containers, including stopped ones, use:
+    ```bash
+    docker ps -a
+    ```
+    This will show container IDs, names, status, ports, and more.
+5. **Stop the API container**  
+    To stop the running container named taxi-api, run:
+    ```bash
+    docker stop taxi-api
+    ```
+    > Tip: Use the container name (like taxi-api) or container ID at the end of the command to specify which container to stop.
+6. **Remove the API container**  
+    If you want to remove the container after stopping it (to free up resources), run:
+    ```docker
+    docker rm taxi-api
+    ```
+    Remove all stopped containers:
+    ```bash
+    docker container prune
+    ```
+    > This will prompt for confirmation before deleting all stopped containers.
+    Remove all containers (both running and stopped):
+    ```bash
+    docker rm -f $(docker ps -a -q)
+    ```
+    > **Warning:** This force-stops and deletes all containers permanently. Use with caution.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
