@@ -526,7 +526,7 @@ response = client.predict(
 print(response.json())
 ```
 
-More examples (including batch prediction) can be found in:
+More examples (including batch prediction) can be found in:  
 📁 [`api/api_client_demo.py`](api/api_client_demo.py)
 
 ---
