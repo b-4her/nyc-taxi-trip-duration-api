@@ -327,13 +327,13 @@ A full list of endpoints, expected inputs, and response formats can be found in:
 📄 [`endpoints.md`](api/endpoints.md)
 
 Basic endpoints include:
--	POST /predict – Make a prediction
-- POST /predict/batch – Predict durations for a batch of trips.
--	GET /features – List required features
--	GET /features/sample – Show example input
--	GET /about – About the model
--	POST /validate – Validate input schema
--	GET /help – List all available endpoints
+-	POST `/predict` – Make a prediction
+- POST `/predict/batch` – Predict durations for a batch of trips.
+-	GET `/features` – List required features
+-	GET `/features/sample` – Show example input
+-	GET `/about` – About the model
+-	POST `/validate` – Validate input schema
+-	GET `/help` – List all available endpoints
 
 ### Interacting with the API Using cURL
 
