@@ -34,7 +34,9 @@
   - [Installation](#installation)
 - [Docker Usage](#docker-usage)
 - [API Usage](#api-usage)
+  - [Interacting with the API Using cURL](#interacting-with-the-api-using-curl)
 - [CLI Usage](#cli-usage)
+- [Client Usage](#client-usage)
 - [Contact Information](#contact-information)
 - [Resources and Credits](#resources-and-credits)
   - [Libraries and Frameworks](#libraries-and-frameworks)
@@ -370,6 +372,12 @@ For usage instructions:
 > Instead of running the script as `api/api_cli.py`, you can also change directory into the `api` folder first and then run the command without the `api/` prefix.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Client Usage 
+
+(TODO)
 
 ---
 
