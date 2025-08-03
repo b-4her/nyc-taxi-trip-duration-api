@@ -54,7 +54,7 @@ The main idea of this project is to understand the end-to-end deployment process
 
 The project starts with a comprehensive exploratory data analysis (EDA) and emphasizes feature engineering and data preprocessing. Multiple models were trained and evaluated to predict taxi trip durations based on trip-related features.
 
-The final model is deployed using a FastAPI service, and a command-line interface (CLI) tool was built to interact with the API — simulating how such a system could be used in production.
+The final model is deployed as a FastAPI service. To simulate real-world usage, a command-line interface (CLI) tool was developed to interact with the API. The project is containerized using Docker, making it production-ready and reproducible across different systems.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -65,16 +65,18 @@ The final model is deployed using a FastAPI service, and a command-line interfac
 
 ```
 project-root/
-├── README.md
+├── README.md                      # Project overview and usage instructions
 ├── LICENSE
-├── requirements.txt               # Python dependencies
+├── requirements.txt              # Python dependencies
 ├── .gitignore
+├── .dockerignore                 # Docker ignore rules
+├── Dockerfile                    # Docker build configuration
 │
-├── models/                        # Saved Ridge models
+├── models/                       # Saved Ridge models
 │   ├── final_ridge_pipeline.pkl
 │   └── ridge_pipeline_5.pkl
 │
-├── notebooks/                     # Notebooks for EDA and input prep
+├── notebooks/                    # Notebooks for EDA and input prep
 │   ├── EDA.ipynb
 │   └── inference-input-prep.ipynb
 │
@@ -91,10 +93,12 @@ project-root/
 │   ├── model_results.md
 │   └── nyc-taxi-trip-summary-report.pdf
 │
-└── api/                          # API and CLI
-    ├── app.py
-    ├── endpoints.md
-    └── predict_cli.py
+└── api/                          # API and CLI tools
+    ├── app.py                    # FastAPI application
+    ├── endpoints.md              # API endpoint documentation
+    ├── api_cli.py                # CLI tool to interact with API
+    ├── api_client.py             # Python-based client interface
+    └── api_client_demo.py        # Demo script for client usage
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
