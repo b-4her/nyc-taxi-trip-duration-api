@@ -24,17 +24,17 @@
   - [Feature Selection](#feature-selection)
   - [Modeling and Results](#modeling-and-results)
   - [Inference Input Formatting](#Inference-input-formatting)
+  - [Docker](#docker)
   - [API](#api)
   - [CLI](#cli)
-  - [Docker](#docker)
 - [Project Report](#project-report)
 - [Lessons Learned](#lessons-learned)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Docker Usage](#docker-usage)
 - [API Usage](#api-usage)
 - [CLI Usage](#cli-usage)
-- [Docker Usage](#docker-usage)
 - [Contact Information](#contact-information)
 - [Resources and Credits](#resources-and-credits)
   - [Libraries and Frameworks](#libraries-and-frameworks)
@@ -144,6 +144,13 @@ A dedicated notebook (📄 [`inference-input-prep.ipynb`](notebooks/inference-in
 
 This bridged the gap between training and real-time inference.
 
+### Docker
+
+To simplify deployment and avoid manual installation of dependencies, a Docker setup was added. This allows users to run the API in a containerized environment without installing Python packages locally.
+
+- The Docker image includes the trained model, all required dependencies, and the FastAPI app.
+- Useful for users who do not wish to use the CLI or set up a virtual environment.
+
 ### API
 
 A RESTful API was built using FastAPI to serve the model. Main endpoints:
@@ -152,7 +159,7 @@ A RESTful API was built using FastAPI to serve the model. Main endpoints:
 - `GET /features`, `GET /features/sample` — Show required fields and sample input.
 - `GET /help`, `GET /about` — Describe API and usage.
 
-The pipeline ensured preprocessing and prediction were encapsulated in a single step.
+A cURL usage guide is also included for users who prefer to interact with the API directly from the terminal without using the CLI tool.
 
 ### CLI
 
@@ -162,14 +169,11 @@ A CLI tool using `argparse` and `requests` was created to interact with the API 
 - Hit endpoints like `/predict` or `/validate`.
 - Test predictions without needing a frontend.
 
-### Docker
-
-To simplify deployment and avoid manual installation of dependencies, a Docker setup was added. This allows users to run the API in a containerized environment without installing Python packages locally.
-
-- The Docker image includes the trained model, all required dependencies, and the FastAPI app.
-- Useful for users who do not wish to use the CLI or set up a virtual environment.
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Client
+
+(TODO)
 
 ---
 
@@ -220,6 +224,19 @@ To run this project locally, clone the repository and install the required depen
    pip install -r requirements.txt
   ```
 
+> If you’d prefer not to install the dependencies locally, you can skip this step and use the project via [Docker](#docker-usage) as explained in the next step.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+### Docker Usage
+
+(TODO)
+
+- To interact with the api directly see [CURL-Commands](#interacting-with-the-api-using-curl)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
@@ -260,13 +277,17 @@ Basic endpoints include:
 -	POST /validate – Validate input schema
 -	GET /help – List all available endpoints
 
+### Interacting with the API Using cURL
+
+(TODO)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
 ## CLI Usage
 
-A command-line interface (CLI) script is provided for interacting with the API directly from your terminal. If you prefer not to use the CLI, you can alternatively run the API using [Docker](#docker-usage), which is covered in the next section.
+A command-line interface (CLI) script is provided for interacting with the API directly from your terminal. If you prefer not to use the CLI, you can alternatively interact with the API using standard [curl commands](#interacting-with-the-api-using-curl), as explained in the API Usage section.
 
 To use the CLI, make sure the **API is already running locally**.
 
@@ -347,14 +368,6 @@ For usage instructions:
   ```
 
 > Instead of running the script as `api/api_cli.py`, you can also change directory into the `api` folder first and then run the command without the `api/` prefix.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-### Docker Usage
-
-(TODO)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
