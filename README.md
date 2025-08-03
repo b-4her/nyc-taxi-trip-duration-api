@@ -26,6 +26,7 @@
   - [Inference Input Formatting](#Inference-input-formatting)
   - [API](#api)
   - [CLI](#cli)
+  - [Docker](#docker)
 - [Project Report](#project-report)
 - [Lessons Learned](#lessons-learned)
 - [Getting Started](#getting-started)
@@ -33,6 +34,7 @@
   - [Installation](#installation)
 - [API Usage](#api-usage)
 - [CLI Usage](#cli-usage)
+- [Docker Usage](#docker-usage)
 - [Contact Information](#contact-information)
 - [Resources and Credits](#resources-and-credits)
   - [Libraries and Frameworks](#libraries-and-frameworks)
@@ -160,6 +162,13 @@ A CLI tool using `argparse` and `requests` was created to interact with the API 
 - Hit endpoints like `/predict` or `/validate`.
 - Test predictions without needing a frontend.
 
+### Docker
+
+To simplify deployment and avoid manual installation of dependencies, a Docker setup was added. This allows users to run the API in a containerized environment without installing Python packages locally.
+
+- The Docker image includes the trained model, all required dependencies, and the FastAPI app.
+- Useful for users who do not wish to use the CLI or set up a virtual environment.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
@@ -227,8 +236,14 @@ The project includes a FastAPI-based service to serve model predictions via HTTP
 
 **Running the API**
 
+> **Important:** You must first change directory into the `api` folder; otherwise, the API will not run correctly.
+
   ```bash
-  uvicorn api.app:app --reload
+  cd api
+  ```
+
+  ```bash
+  uvicorn app:app --reload
   ```
 
 **Available Endpoints**
@@ -251,47 +266,95 @@ Basic endpoints include:
 
 ## CLI Usage
 
-A command-line interface (CLI) script is available to interact with the API without a web frontend.
+A command-line interface (CLI) script is provided for interacting with the API directly from your terminal. If you prefer not to use the CLI, you can alternatively run the API using [Docker](#docker-usage), which is covered in the next section.
+
+To use the CLI, make sure the **API is already running locally**.
+
+### Option 1: Run API and CLI in Split Terminals
+
+You can split the terminal in **VS Code** to run both the API and CLI simultaneously:
+
+1. **Split the Terminal:**
+   - Hover over the terminal panel in VS Code.
+   - Press `Ctrl` + `\` (Windows/Linux) or `Cmd` + `\` (macOS).  
+     *(This is the general shortcut for splitting terminal windows.)*
+
+2. **Start the API:**  
+   - In one terminal, `cd` into the `api` directory and run the `uvicorn` command as shown in the [API Usage](#api-usage) section.
+
+3. **Run the CLI:**
+   - Use the second terminal pane to run your CLI commands.
+
+### Option 2: Host the API Remotely
+
+If you're hosting the API on a remote server:
+
+1. **Update the CLI:**
+   - Change the `BASE_URL` variable at the top of the CLI script to point to your server’s URL.
+
+2. **Run the CLI Directly:**
+   - You can now run the CLI from any terminal without needing to start the API locally.
+
+
+### How It Works
+
+- **Endpoint Selection**: Use the `--endpoint` flag to choose one of the API endpoints:
+  - `predict`, `validate`, `features`, `features/sample`, `about`, `version`, or `help`
+  - If no endpoint is specified, it defaults to `help`.
+  - *Check the [API section](#api-usage) for what each endpoint does.*
 
 **Example Usage**
 
+> Make sure you are using **Python 3** to avoid syntax errors.
+
   ```bash
-  python api/predict_cli.py predict \           
-    2 \                                         # vendor_id: 1 or 2
-    3 \                                         # passenger_count: number of passengers
-    -73.993 \                                   # pickup_longitude
-    40.750 \                                    # pickup_latitude
-    -73.985 \                                   # dropoff_longitude
-    40.758 \                                    # dropoff_latitude
-    2016-06-01 \                                # pickup_date (YYYY-MM-DD)
-    08:00:00 \                                  # pickup_time (HH:MM:SS)
-    N                                           # store_and_fwd_flag: either "Y" or "N"
+  python3 api/api_cli.py --endpoint predict \
+  1 \
+  1 \
+  -73.988 \
+  40.748 \
+  -73.992 \
+  40.763 \
+  2016-03-23 \
+  02:24 \
+  N 
   ```
+
+| Position | Parameter Name        | Description                                                 | Example Value   |
+|----------|------------------------|-------------------------------------------------------------|-----------------|
+| 1        | `vendor_id`            | Vendor ID of the trip (1 or 2)                              | `1`             |
+| 2        | `passenger_count`      | Number of passengers in the trip                            | `1`             |
+| 3        | `pickup_longitude`     | Longitude where the trip started                            | `-73.988609`    |
+| 4        | `pickup_latitude`      | Latitude where the trip started                             | `40.748977`     |
+| 5        | `dropoff_longitude`    | Longitude where the trip ended                              | `-73.992797`    |
+| 6        | `dropoff_latitude`     | Latitude where the trip ended                               | `40.763408`     |
+| 7        | `pickup_date`          | Date of the pickup in `YYYY-MM-DD` format                   | `2016-03-23`    |
+| 8        | `pickup_time`          | Time of the pickup in `HH:MM` format                        | `02:24`         |
+| 9        | `store_and_fwd_flag`   | Whether the trip was stored before forwarding (`Y` or `N`)  | `N`             |
 
 ### Notes
 
-- `predict_cli.py` accepts one optional **flag-style argument**: `--endpoint`, which defaults to `"help"` if not provided.
-- All other inputs (e.g., vendor ID, pickup coordinates, etc.) are passed as **positional arguments**.
+- All inputs (e.g., vendor ID, pickup coordinates, etc.) are passed as **positional arguments**.
 - **Positional arguments are only required when the endpoint is `predict` or `validate`.**
-- These arguments must appear **in this exact order**:
-  1. `vendor_id` — (e.g., 1 or 2)
-  2. `passenger_count`
-  3. `pickup_longitude`
-  4. `pickup_latitude`
-  5. `dropoff_longitude`
-  6. `dropoff_latitude`
-  7. `pickup_date` — format: `YYYY-MM-DD`
-  8. `pickup_time` — format: `HH:MM:SS`
-  9. `store_and_fwd_flag` — "Y" or "N"
-
+- These arguments must appear **in exact order** that is shown in the example table.
 - If any of the required arguments are missing, the script will raise an error and list what's missing.
 - For other endpoints like `features`, `about`, or `help`, no additional input is needed.
 
 For usage instructions:
 
   ```bash
-    python api/predict_cli.py --help
+    python3 api/api_cli.py --help
   ```
+
+> Instead of running the script as `api/api_cli.py`, you can also change directory into the `api` folder first and then run the command without the `api/` prefix.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+### Docker Usage
+
+(TODO)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

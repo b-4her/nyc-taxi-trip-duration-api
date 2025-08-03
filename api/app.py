@@ -76,7 +76,7 @@ class TripInput(BaseModel):
 @app.post("/predict")
 def predict(trip_data: TripInput):
     """
-    Predict the taxi trip duration in seconds based on user-provided trip details.
+    Predict the taxi trip duration in minutes based on user-provided trip details.
 
     Parameters:
         trip_data (TripInput): Input data including vendor ID, passenger count,
@@ -218,8 +218,9 @@ def predict(trip_data: TripInput):
         model_pipeline, _ = load_model(MODEL_PATH)
         log_trip_duration = model_pipeline.predict(trip)[0]
         trip_duration = np.expm1(log_trip_duration).round()
+        trip_duration_minutes = trip_duration // 60
 
-        return {"trip_duration": trip_duration}
+        return {"trip_duration": int(trip_duration_minutes)}
     
     except Exception as e:
         traceback.print_exc()
@@ -382,10 +383,10 @@ def get_about():
     """
     return {
         "about": (
-            "This API predicts the duration (in seconds) of NYC taxi trips using a Ridge Regression model.\n"
+            "This API predicts the duration (in minutes) of NYC taxi trips using a Ridge Regression model.\n"
             "It focuses on feature engineering to improve prediction quality.\n"
             "The model predicts log-transformed trip duration (`log_trip_duration`),\n"
-            "which is later exponentiated to return the actual trip time in seconds.\n"
+            "which is later exponentiated to return the actual trip time in seconds and converted into minutes.\n"
             "Predictions are based on trip metadata such as:\n"
             "- Vendor ID\n"
             "- Pickup/Dropoff coordinates\n"
@@ -394,7 +395,7 @@ def get_about():
             "\n"
             "The features used can be viewed at the `/features` endpoint,\n"
             "and a valid sample input is available at `/features/sample`.\n"
-            "The output is a single integer representing the estimated trip duration in seconds.\n"
+            "The output is a single integer representing the estimated trip duration in minutes.\n"
             "\n"
             "This project was developed by Baher Alabbar\n"
             "as part of a learning initiative to understand end-to-end deployment of ML models."
@@ -417,7 +418,7 @@ def get_version():
         "train_r2": 0.6946,
         "val_rmse": 0.3930,
         "val_r2": 0.6949,
-        "target_variable": "log_trip_duration (converted back to seconds)",
+        "target_variable": "log_trip_duration (converted back to seconds then into minutes)",
     }
 
 
