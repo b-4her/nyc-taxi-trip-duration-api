@@ -176,7 +176,7 @@ A CLI tool using `argparse` and `requests` was created to interact with the API 
 - Hit endpoints like `/predict` or `/validate`.
 - Test predictions without needing a frontend.
 
-### Client
+### API Client
 
 (TODO)
 
@@ -328,6 +328,7 @@ A full list of endpoints, expected inputs, and response formats can be found in:
 
 Basic endpoints include:
 -	POST /predict – Make a prediction
+- POST /predict/batch – Predict durations for a batch of trips.
 -	GET /features – List required features
 -	GET /features/sample – Show example input
 -	GET /about – About the model
@@ -477,6 +478,9 @@ If you're hosting the API on a remote server:
 - These arguments must appear **in exact order** that is shown in the example table.
 - If any of the required arguments are missing, the script will raise an error and list what's missing.
 - For other endpoints like `features`, `about`, or `help`, no additional input is needed.
+- The `--json-path` argument is only required when using the `predict/batch` endpoint:
+	- It must point to a JSON file containing a list of input dictionaries.
+	- The script will load the file, send it as the request body, and return predictions for all entries.
 
 For usage instructions:
 
@@ -490,11 +494,13 @@ For usage instructions:
 
 ---
 
-## Client Usage 
+## API Client Usage 
 
 (TODO)
 
 [api-client-demo](api/api_client_demo.py)  
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
