@@ -374,7 +374,7 @@ curl http://127.0.0.1:8000/features/sample | jq
 curl http://127.0.0.1:8000/version | jq
 ```
 
-#### POST Endpoint Usage (cURL)
+#### `POST` Endpoint Usage (cURL)
 
 The following examples demonstrate how to use `curl` to interact with the API's `POST` endpoints. These endpoints require sending JSON input data in the request body.
 
@@ -522,6 +522,7 @@ For any questions or feedback, reach out via:
 * **numpy** – Numerical computations.
 * **seaborn**, **matplotlib** – Visualization.
 * **FastAPI**, **argparse** – Deployment of the API and CLI interface.
+* **Docker** – Containerization for reproducible deployment
 
 ### Development Tools:
 
