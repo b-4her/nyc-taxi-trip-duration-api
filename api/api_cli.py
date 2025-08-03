@@ -8,10 +8,21 @@ BASE_URL = os.getenv("API_URL", "http://127.0.0.1:8000")  # FastAPI must be runn
 def main():
     parser = argparse.ArgumentParser(description="CLI for Taxi Trip API")
 
-    parser.add_argument("--endpoint", 
-                        choices=["predict", "validate", "features", "features/sample", "about", "version", "help"], 
-                        default="help", 
-                        help="API endpoint to call (default: 'help')")
+    parser.add_argument(
+        "--endpoint", 
+        choices=[
+            "predict", 
+            "predict/batch", 
+            "validate", 
+            "features", 
+            "features/sample", 
+            "about", 
+            "version", 
+            "help"
+        ], 
+        default="help", 
+        help="API endpoint to call (default: 'help')"
+    )
 
     # Optional positional arguments (required only for predict/validate)
     parser.add_argument("vendor_id", type=int, nargs="?", help="Vendor ID (e.g., 1 or 2)")
@@ -23,6 +34,7 @@ def main():
     parser.add_argument("pickup_date", type=str, nargs="?", help="Pickup date in YYYY-MM-DD format")
     parser.add_argument("pickup_time", type=str, nargs="?", help="Pickup time in HH:MM:SS format")
     parser.add_argument("store_and_fwd_flag", type=str, nargs="?", help="Store and forward flag ('Y' or 'N').")
+    parser.add_argument("--input-json",type=str, help="Batch input as a JSON file path or raw JSON string (used only with 'predict/batch')")
   
     args = parser.parse_args() # activates the parser
 
@@ -62,6 +74,24 @@ def main():
 
             case "features" | "features/sample" | "version" | "help":  # get methods
                 response = requests.get(request_url)
+                print(json.dumps(response.json(), indent=4))
+
+            case "predict/batch":  # POST method with batch input from JSON file or raw string
+                if not args.input_json:
+                    raise ValueError("The --input_json argument is required for 'predict/batch'")
+
+                try:
+                    # Try to read as file path
+                    if os.path.exists(args.input_json):
+                        with open(args.input_json, "r") as f:
+                            batch_data = json.load(f)
+                    else:
+                        # Assume it's a raw JSON string
+                        batch_data = json.loads(args.input_json)
+                except Exception as e:
+                    raise ValueError(f"Failed to parse batch input: {e}")
+
+                response = requests.post(request_url, json=batch_data)
                 print(json.dumps(response.json(), indent=4))
 
             case "about":  # get method

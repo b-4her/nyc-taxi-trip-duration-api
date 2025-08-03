@@ -227,6 +227,32 @@ def predict(trip_data: TripInput):
         raise HTTPException(status_code=400, detail=str(e))
     
 
+@app.post("/predict/batch")
+def predict_batch(trip_batch: list[TripInput]):
+    """
+    Predict taxi trip durations (in minutes) for a batch of trips.
+
+    Parameters:
+        trip_batch (List[TripInput]): A list of input records, each including vendor ID,
+                                      passenger count, pickup/dropoff coordinates, 
+                                      datetime info, and other trip features.
+
+    Returns:
+        JSON response containing a list of predicted trip durations corresponding 
+        to each input trip in the batch.
+    """
+    try:
+        results = []
+
+        for trip in trip_batch:
+            results.append(predict(trip)["trip_duration"])
+
+        return {"predictions": results}
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 class UncheckedTripInput(BaseModel):
     store_and_fwd_flag: str = Field(
         title="Store and Forward Flag ('Y' or 'N')",
@@ -436,6 +462,11 @@ def get_help():
                 "method": "POST",
                 "endpoint": "/predict",
                 "description": "Predicts trip duration based on user-provided trip features."
+            },
+            {
+            "method": "POST",
+            "endpoint": "/predict/batch",
+            "description": "Returns trip duration predictions for a batch of trip records."
             },
             {
                 "method": "POST",
