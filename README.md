@@ -8,7 +8,7 @@
   <p align="center">
     <i>An end-to-end machine learning project that explores, builds, and deploys a predictive model for NYC taxi trip durations — from raw data analysis to API integration, packaged in a Docker container for reproducibility and production readiness.</i>
     <br />
-    <a href="https://youtu.be/your-demo-link"><strong>Quick Demo</strong></a>
+    <!-- <a href="https://youtu.be/your-demo-link"><strong>Quick Demo</strong></a> -->
   </p>
 </div>
 
